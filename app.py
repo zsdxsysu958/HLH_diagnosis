@@ -7,40 +7,25 @@ import requests
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 
-# 🔗 GitHub RAW 链接（替换为你的仓库）
-MODEL_URL = "https://raw.githubusercontent.com/zsdxsysu958/HLH_diagnosis/main/random_forest_model.pkl"
-SCALER_URL = "https://raw.githubusercontent.com/zsdxsysu958/HLH_diagnosis/main/scaler.pkl"
+import streamlit as st
+import joblib
+import numpy as np
+import pandas as pd
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.preprocessing import StandardScaler
+
 
 # 🎯 **加载模型**
 @st.cache_resource
 def load_model():
-    model_path = "/mnt/data/random_forest_model.pkl"
-    scaler_path = "/mnt/data/scaler.pkl"
-
-    # 如果模型文件不存在，则从 GitHub 下载
-    if not os.path.exists(model_path):
-        st.info("🔽 正在从 GitHub 下载模型文件...")
-        response = requests.get(MODEL_URL)
-        with open(model_path, "wb") as f:
-            f.write(response.content)
-
-    if not os.path.exists(scaler_path):
-        st.info("🔽 正在从 GitHub 下载标准化工具...")
-        response = requests.get(SCALER_URL)
-        with open(scaler_path, "wb") as f:
-            f.write(response.content)
-
-    # 加载模型
-    model = joblib.load(model_path)
-    scaler = joblib.load(scaler_path)
+    model = joblib.load("random_forest_model.pkl")  # 加载训练好的模型
+    scaler = joblib.load("scaler.pkl")  # 加载用于数据标准化的Scaler
     return model, scaler
 
-# 加载模型
 model, scaler = load_model()
-st.success("✅ 模型加载成功，可以进行预测！")
 
 # 🎯 **页面标题**
-st.title("🩺 噬血细胞综合征（Hemophagocytic Lymphohistiocytosis, HLH）预测模型")
+st.title("🩺 噬血细胞综合征（Hemophagocytic Lymphohistiocytosis, HLH） 预测模型")
 
 st.sidebar.header("📊 请输入患者数据")
 Ferritin = st.sidebar.number_input("Ferritin (ng/mL)", min_value=0)
@@ -85,4 +70,4 @@ if st.button("🔍 预测 HLH 风险"):
         data=result_df.to_csv(index=False, encoding="utf-8"),
         file_name="HLH_prediction_results.csv",
         mime="text/csv"
-    )
+    ) 
