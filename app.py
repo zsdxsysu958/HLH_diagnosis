@@ -40,7 +40,7 @@ model, scaler = load_model()
 st.success("✅ 模型加载成功，可以进行预测！")
 
 # 🎯 **页面标题**
-st.title("🩺 HLH 预测模型")
+st.title("🩺 噬血细胞综合征（Hemophagocytic Lymphohistiocytosis, HLH）预测模型")
 
 st.sidebar.header("📊 请输入患者数据")
 Ferritin = st.sidebar.number_input("Ferritin (ng/mL)", min_value=0)
