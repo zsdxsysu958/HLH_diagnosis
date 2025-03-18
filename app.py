@@ -28,11 +28,11 @@ model, scaler = load_model()
 st.title("🩺 噬血细胞综合征（Hemophagocytic Lymphohistiocytosis, HLH） 预测模型")
 
 st.sidebar.header("📊 请输入患者数据")
-Ferritin = st.sidebar.number_input("Ferritin (ng/mL)", min_value=0)
-LDH = st.sidebar.number_input("LDH (IU/L)", min_value=0)
-TRIG = st.sidebar.number_input("TRIG (mg/dL)", min_value=0)
-TBA = st.sidebar.number_input("TBA (umol/L)", min_value=0)
-eGFR = st.sidebar.number_input("eGFR-EPI (mL/min/1.73m²)", min_value=0)
+Ferritin = st.sidebar.number_input("Ferritin (ng/mL)", min_value=0.0, step=0.01)
+LDH = st.sidebar.number_input("LDH (IU/L)", min_value=0.0, step=0.01)
+TRIG = st.sidebar.number_input("TRIG (mg/dL)", min_value=0.0, step=0.01)
+TBA = st.sidebar.number_input("TBA (umol/L)", min_value=0.0, step=0.01)
+eGFR = st.sidebar.number_input("eGFR-EPI (mL/min/1.73m²)", min_value=0.0, step=0.01)
 
 # 🎯 **转换成模型输入格式**
 input_data = np.array([[Ferritin, LDH, TRIG, TBA, eGFR]])
