@@ -4,15 +4,17 @@ import pandas as pd
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 
-# 加载模型（这里假设模型已经训练好）
+# 🎯 **加载模型**
 @st.cache_resource
 def load_model():
-    model = RandomForestClassifier(n_estimators=100, max_depth=10, random_state=42)
-    return model
+    model = joblib.load("random_forest_model.pkl")  # 加载训练好的模型
+    scaler = joblib.load("scaler.pkl")  # 加载用于数据标准化的Scaler
+    return model, scaler
 
-model = load_model()
+model, scaler = load_model()
 
-st.title("HLH 预测模型")
+# 🎯 **页面标题**
+st.title("🩺 HLH 预测模型")
 
 st.sidebar.header("📊 请输入患者数据")
 Ferritin = st.sidebar.number_input("Ferritin (ng/mL)", min_value=0)
@@ -23,12 +25,11 @@ eGFR = st.sidebar.number_input("eGFR-EPI (mL/min/1.73m²)", min_value=0)
 
 # 🎯 **转换成模型输入格式**
 input_data = np.array([[Ferritin, LDH, TRIG, TBA, eGFR]])
-scaler = StandardScaler()
-input_data_scaled = scaler.fit_transform(input_data)
+input_data_scaled = scaler.transform(input_data)  # 使用训练时的scaler进行标准化
 
 # 🎯 **预测 HLH 风险**
 if st.button("🔍 预测 HLH 风险"):
-    hlh_probability = model.predict_proba(input_data_scaled)[:, 1]  # 取HLH的概率
+    hlh_probability = model.predict_proba(input_data_scaled)[:, 1]  # 获取 HLH 预测概率
 
     # 设定风险等级
     if hlh_probability[0] > 0.8:
