@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 import os
 import requests
-import io
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 
@@ -67,17 +66,10 @@ if st.button("🔍 预测 HLH 风险"):
     })
 
 
-# 创建一个 BytesIO 缓存区
-output = io.BytesIO()
-
-# 将 DataFrame 写入 Excel
-with pd.ExcelWriter(output, engine="xlsxwriter") as writer:
-    result_df.to_excel(writer, index=False, sheet_name="HLH 预测")
-
-# 让 Streamlit 生成 Excel 下载按钮
 st.download_button(
-    label="📥 下载预测结果 (Excel)",
-    data=output.getvalue(),
-    file_name="HLH_prediction_results.xlsx",
-    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+    label="📥 下载预测结果",
+    data=result_df.to_csv(index=False, encoding="utf-8-sig"),
+    file_name="HLH_prediction_results.csv",
+    mime="text/csv"
 )
+
