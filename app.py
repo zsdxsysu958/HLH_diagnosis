@@ -4,6 +4,7 @@ import numpy as np
 import pandas as pd
 import os
 import requests
+import io
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.preprocessing import StandardScaler
 
@@ -65,7 +66,6 @@ if st.button("🔍 预测 HLH 风险"):
         "风险等级": [risk_level]
     })
 
-    import io
 
 # 创建一个 BytesIO 缓存区
 output = io.BytesIO()
