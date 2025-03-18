@@ -67,7 +67,7 @@ if st.button("🔍 预测 HLH 风险"):
 
     st.download_button(
         label="📥 下载预测结果",
-        data=result_df.to_csv(index=False, encoding="utf-8"),
+        data=result_df.to_csv(index=False, encoding="utf-8-sig"),
         file_name="HLH_prediction_results.csv",
         mime="text/csv"
     ) 
